@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #0B2347;
+  --navy-dark: #081A33;
+  --blue: #1A4A7A;
+  --blue-dark: #163E66;
+  --gold: #E08A4C;
+  --off: #f4f7fb;
+  --line: #dce5f0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  color: #0B2347;
+  background-color: #ffffff;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(224, 138, 76, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(224, 138, 76, 0);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.5s infinite;
+}
+
+.animate-float {
+  animation: floatSlow 4s ease-in-out infinite;
+}
+
+/* Prose formatting for sheet HTML */
+.sheet-content {
+  color: #1e293b;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.sheet-content p {
+  margin-bottom: 1.25rem;
+}
+
+.sheet-content a {
+  color: #1A4A7A;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+.sheet-content a:hover {
+  color: #0B2347;
+}
+
+.sheet-content ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.sheet-content ul li {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.sheet-content ul li::before {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  top: 0.65rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: #E08A4C;
+}
+
+.sheet-content strong {
+  color: #0B2347;
+  font-weight: 700;
+}
