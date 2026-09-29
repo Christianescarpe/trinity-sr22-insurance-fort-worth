@@ -18,7 +18,7 @@ export default function PageRenderer({ page }: PageRendererProps) {
   const isLocationPage = page.pageName.includes('(Location Page)');
 
   // Select suitable hero image based on page slug
-  let heroImage = '/images/hero-keys.webp';
+  let heroImage = '/images/signing-auto-insurance-document-with-car-key-and-c-2026-01-06-09-05-16-utc.webp';
   if (page.slug === 'what-is-sr22') heroImage = '/images/man-document.webp';
   else if (isStepsPage) heroImage = '/images/tablet-form.webp';
   else if (page.slug === 'non-owners-sr22-insurance') heroImage = '/images/hands-protect.webp';

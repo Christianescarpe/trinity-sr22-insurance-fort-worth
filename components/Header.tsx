@@ -3,12 +3,36 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Phone, ChevronDown, Menu, X, MapPin } from 'lucide-react';
-import { mainNavPages, locationPages, siteConfig } from '@/lib/pagesData';
+import { Phone, ChevronDown, Menu, X, MapPin, FileCheck, HelpCircle, Car, Shield } from 'lucide-react';
+import { locationPages, siteConfig } from '@/lib/pagesData';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [sr22DropdownOpen, setSr22DropdownOpen] = useState(false);
   const [areasDropdownOpen, setAreasDropdownOpen] = useState(false);
+  const [mobileSr22Open, setMobileSr22Open] = useState(true);
+  const [mobileAreasOpen, setMobileAreasOpen] = useState(false);
+
+  const services = [
+    {
+      name: 'What is SR-22?',
+      href: '/what-is-sr22/',
+      description: 'Understanding Texas financial responsibility requirements',
+      icon: HelpCircle,
+    },
+    {
+      name: 'How to Get an SR-22',
+      href: '/how-to-get-an-sr22-in-fort-worth/',
+      description: 'Step-by-step TxDPS license reinstatement process',
+      icon: FileCheck,
+    },
+    {
+      name: 'Non-Owners SR-22 Insurance',
+      href: '/non-owners-sr22-insurance/',
+      description: 'Low-cost coverage for drivers without a registered vehicle',
+      icon: Car,
+    },
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-surface-line shadow-sm transition-all duration-300">
@@ -28,31 +52,74 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-6">
+          <nav className="hidden xl:flex items-center gap-7">
             <Link
               href="/"
-              className="text-navy font-semibold text-[0.92rem] hover:text-brandBlue transition-colors py-2"
+              className="text-navy font-semibold text-[0.95rem] hover:text-brandBlue transition-colors py-2"
             >
               Home
             </Link>
-            <Link
-              href="/what-is-sr22/"
-              className="text-navy font-semibold text-[0.92rem] hover:text-brandBlue transition-colors py-2"
+
+            {/* Sr22 Insurance Dropdown with Services */}
+            <div
+              className="relative group"
+              onMouseEnter={() => setSr22DropdownOpen(true)}
+              onMouseLeave={() => setSr22DropdownOpen(false)}
             >
-              What is SR-22?
-            </Link>
-            <Link
-              href="/how-to-get-an-sr22-in-fort-worth/"
-              className="text-navy font-semibold text-[0.92rem] hover:text-brandBlue transition-colors py-2"
-            >
-              How to Get SR-22
-            </Link>
-            <Link
-              href="/non-owners-sr22-insurance/"
-              className="text-navy font-semibold text-[0.92rem] hover:text-brandBlue transition-colors py-2"
-            >
-              Non-Owners
-            </Link>
+              <button
+                type="button"
+                className="flex items-center gap-1.5 text-navy font-semibold text-[0.95rem] hover:text-brandBlue transition-colors py-2 focus:outline-none"
+                onClick={() => setSr22DropdownOpen(!sr22DropdownOpen)}
+                aria-expanded={sr22DropdownOpen}
+              >
+                <span>Sr22 Insurance</span>
+                <ChevronDown
+                  className={`w-4 h-4 text-slate-500 group-hover:text-brandBlue transition-transform duration-200 ${
+                    sr22DropdownOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+
+              <div
+                className={`absolute top-full left-0 w-80 bg-white rounded-2xl shadow-2xl border border-surface-line py-3 transition-all duration-200 ${
+                  sr22DropdownOpen
+                    ? 'opacity-100 visible translate-y-0 pointer-events-auto'
+                    : 'opacity-0 invisible -translate-y-2 pointer-events-none'
+                }`}
+              >
+                <div className="px-4 py-1.5 border-b border-slate-100 mb-2">
+                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                    <Shield className="w-3.5 h-3.5 text-gold" />
+                    SR-22 Coverage Services
+                  </span>
+                </div>
+                <div className="space-y-1 px-2">
+                  {services.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-brandBlue-soft hover:text-brandBlue transition-colors group/item"
+                        onClick={() => setSr22DropdownOpen(false)}
+                      >
+                        <div className="p-2 rounded-lg bg-surface-off text-navy group-hover/item:bg-navy group-hover/item:text-white transition-colors">
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-bold text-navy group-hover/item:text-brandBlue">
+                            {item.name}
+                          </div>
+                          <div className="text-xs text-slate-500 line-clamp-1">
+                            {item.description}
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
 
             {/* Service Areas Dropdown */}
             <div
@@ -62,33 +129,37 @@ export default function Header() {
             >
               <button
                 type="button"
-                className="flex items-center gap-1 text-navy font-semibold text-[0.92rem] hover:text-brandBlue transition-colors py-2"
+                className="flex items-center gap-1.5 text-navy font-semibold text-[0.95rem] hover:text-brandBlue transition-colors py-2 focus:outline-none"
                 onClick={() => setAreasDropdownOpen(!areasDropdownOpen)}
                 aria-expanded={areasDropdownOpen}
               >
                 <span>Service Areas</span>
-                <ChevronDown className="w-4 h-4 text-slate-500 group-hover:text-brandBlue transition-transform duration-200 group-hover:rotate-180" />
+                <ChevronDown
+                  className={`w-4 h-4 text-slate-500 group-hover:text-brandBlue transition-transform duration-200 ${
+                    areasDropdownOpen ? 'rotate-180' : ''
+                  }`}
+                />
               </button>
 
               <div
-                className={`absolute top-full left-0 w-64 bg-white rounded-xl shadow-xl border border-surface-line py-2 transition-all duration-200 ${
+                className={`absolute top-full left-0 w-72 bg-white rounded-2xl shadow-2xl border border-surface-line py-3 transition-all duration-200 ${
                   areasDropdownOpen
-                    ? 'opacity-100 visible translate-y-0'
+                    ? 'opacity-100 visible translate-y-0 pointer-events-auto'
                     : 'opacity-0 invisible -translate-y-2 pointer-events-none'
                 }`}
               >
-                <div className="px-3 py-1.5 border-b border-slate-100 mb-1">
+                <div className="px-4 py-1.5 border-b border-slate-100 mb-2">
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-gold" />
                     Tarrant County Cities
                   </span>
                 </div>
-                <div className="max-h-80 overflow-y-auto">
+                <div className="max-h-80 overflow-y-auto px-2 space-y-0.5">
                   {locationPages.map((loc) => (
                     <Link
                       key={loc.slug}
                       href={loc.url}
-                      className="block px-4 py-2 text-sm text-navy hover:bg-brandBlue-soft hover:text-brandBlue transition-colors"
+                      className="block px-3 py-2 rounded-lg text-sm text-navy hover:bg-brandBlue-soft hover:text-brandBlue transition-colors font-medium"
                       onClick={() => setAreasDropdownOpen(false)}
                     >
                       {loc.pageName.replace(' (Location Page)', '')}
@@ -100,13 +171,13 @@ export default function Header() {
 
             <Link
               href="/faq/"
-              className="text-navy font-semibold text-[0.92rem] hover:text-brandBlue transition-colors py-2"
+              className="text-navy font-semibold text-[0.95rem] hover:text-brandBlue transition-colors py-2"
             >
               FAQ
             </Link>
             <Link
               href="/contact-us/"
-              className="text-navy font-semibold text-[0.92rem] hover:text-brandBlue transition-colors py-2"
+              className="text-navy font-semibold text-[0.95rem] hover:text-brandBlue transition-colors py-2"
             >
               Contact Us
             </Link>
@@ -150,75 +221,99 @@ export default function Header() {
 
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-white border-b border-surface-line shadow-xl animate-fade-in">
-          <div className="px-4 pt-3 pb-6 space-y-1 divide-y divide-slate-100">
-            <div className="space-y-1 pb-3">
-              <Link
-                href="/"
-                className="block px-3 py-2.5 rounded-lg text-base font-semibold text-navy hover:bg-brandBlue-soft hover:text-brandBlue"
-                onClick={() => setMobileMenuOpen(false)}
+        <div className="xl:hidden bg-white border-b border-surface-line shadow-2xl animate-fade-in max-h-[85vh] overflow-y-auto">
+          <div className="px-4 pt-3 pb-6 space-y-3">
+            <Link
+              href="/"
+              className="block px-3 py-2.5 rounded-lg text-base font-semibold text-navy hover:bg-brandBlue-soft hover:text-brandBlue"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Home
+            </Link>
+
+            {/* Mobile Sr22 Insurance Accordion */}
+            <div className="rounded-xl border border-surface-line overflow-hidden bg-slate-50/50">
+              <button
+                type="button"
+                className="w-full flex items-center justify-between px-3.5 py-3 text-left font-bold text-navy text-base"
+                onClick={() => setMobileSr22Open(!mobileSr22Open)}
               >
-                Home
-              </Link>
-              <Link
-                href="/what-is-sr22/"
-                className="block px-3 py-2.5 rounded-lg text-base font-semibold text-navy hover:bg-brandBlue-soft hover:text-brandBlue"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                What is SR-22?
-              </Link>
-              <Link
-                href="/how-to-get-an-sr22-in-fort-worth/"
-                className="block px-3 py-2.5 rounded-lg text-base font-semibold text-navy hover:bg-brandBlue-soft hover:text-brandBlue"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                How to Get SR-22
-              </Link>
-              <Link
-                href="/non-owners-sr22-insurance/"
-                className="block px-3 py-2.5 rounded-lg text-base font-semibold text-navy hover:bg-brandBlue-soft hover:text-brandBlue"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Non-Owners
-              </Link>
-              <Link
-                href="/faq/"
-                className="block px-3 py-2.5 rounded-lg text-base font-semibold text-navy hover:bg-brandBlue-soft hover:text-brandBlue"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                FAQ
-              </Link>
-              <Link
-                href="/contact-us/"
-                className="block px-3 py-2.5 rounded-lg text-base font-semibold text-navy hover:bg-brandBlue-soft hover:text-brandBlue"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Contact Us
-              </Link>
+                <span className="flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-gold" />
+                  Sr22 Insurance
+                </span>
+                <ChevronDown
+                  className={`w-4 h-4 text-slate-500 transition-transform ${
+                    mobileSr22Open ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+              {mobileSr22Open && (
+                <div className="px-3 pb-3 space-y-1 border-t border-slate-100 bg-white">
+                  {services.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-brandBlue-soft hover:text-brandBlue"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* Mobile Service Areas List */}
-            <div className="pt-3 pb-2">
-              <div className="px-3 py-1 text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-gold" />
-                Service Areas in Tarrant County
-              </div>
-              <div className="grid grid-cols-2 gap-1 mt-2">
-                {locationPages.map((loc) => (
-                  <Link
-                    key={loc.slug}
-                    href={loc.url}
-                    className="block px-3 py-1.5 rounded-md text-sm text-navy hover:bg-brandBlue-soft hover:text-brandBlue"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {loc.pageName.replace(' (Location Page)', '')}
-                  </Link>
-                ))}
-              </div>
+            {/* Mobile Service Areas Accordion */}
+            <div className="rounded-xl border border-surface-line overflow-hidden bg-slate-50/50">
+              <button
+                type="button"
+                className="w-full flex items-center justify-between px-3.5 py-3 text-left font-bold text-navy text-base"
+                onClick={() => setMobileAreasOpen(!mobileAreasOpen)}
+              >
+                <span className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-gold" />
+                  Service Areas
+                </span>
+                <ChevronDown
+                  className={`w-4 h-4 text-slate-500 transition-transform ${
+                    mobileAreasOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+              {mobileAreasOpen && (
+                <div className="p-3 grid grid-cols-2 gap-1 border-t border-slate-100 bg-white">
+                  {locationPages.map((loc) => (
+                    <Link
+                      key={loc.slug}
+                      href={loc.url}
+                      className="block px-2.5 py-1.5 rounded-md text-xs font-medium text-navy hover:bg-brandBlue-soft hover:text-brandBlue"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {loc.pageName.replace(' (Location Page)', '')}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
+
+            <Link
+              href="/faq/"
+              className="block px-3 py-2.5 rounded-lg text-base font-semibold text-navy hover:bg-brandBlue-soft hover:text-brandBlue"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              FAQ
+            </Link>
+            <Link
+              href="/contact-us/"
+              className="block px-3 py-2.5 rounded-lg text-base font-semibold text-navy hover:bg-brandBlue-soft hover:text-brandBlue"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Contact Us
+            </Link>
 
             {/* Mobile CTA */}
-            <div className="pt-4">
+            <div className="pt-3">
               <a
                 href={siteConfig.phoneTel}
                 className="w-full inline-flex items-center justify-center gap-2 bg-navy text-white px-5 py-3.5 rounded-full font-bold text-base shadow hover:bg-navy-dark"

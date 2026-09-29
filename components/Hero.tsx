@@ -14,7 +14,7 @@ interface HeroProps {
 export default function Hero({
   h1,
   introHtml,
-  heroImage = '/images/hero-keys.webp',
+  heroImage = '/images/signing-auto-insurance-document-with-car-key-and-c-2026-01-06-09-05-16-utc.webp',
   imageAlt = 'SR-22 insurance paperwork and car keys in Fort Worth, Texas',
   badgeText = 'Same-day electronic filing with Texas DPS',
 }: HeroProps) {
@@ -29,7 +29,7 @@ export default function Hero({
           {/* Left Column: Heading, Intro, CTA (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
             {badgeText && (
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 px-3.5 py-1.5 rounded-full text-xs md:text-sm font-medium text-slate-200 shadow-sm animate-fade-in">
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1.5 rounded-full text-xs md:text-sm font-medium text-slate-200 shadow-sm animate-fade-in">
                 <Shield className="w-4 h-4 text-gold" />
                 <span>{badgeText}</span>
               </div>
@@ -87,23 +87,29 @@ export default function Hero({
             </div>
           </div>
 
-          {/* Right Column: Hero Image Capsule (5 cols) */}
+          {/* Right Column: Clear, High-Visibility Hero Image (5 cols) */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-md aspect-[4/5] sm:aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 bg-slate-900 group">
+            <div className="relative w-full max-w-lg aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 bg-white group">
               <Image
                 src={heroImage}
                 alt={imageAlt}
                 fill
                 className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 500px"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent"></div>
-              <div className="absolute bottom-4 left-4 right-4 bg-navy/85 backdrop-blur-md border border-white/15 rounded-xl p-3 text-white text-xs">
-                <p className="font-bold flex items-center gap-1.5 text-gold">
-                  <Shield className="w-4 h-4" />
-                  Trinity SR22 Insurance Fort Worth
-                </p>
-                <p className="text-slate-300 mt-0.5">500 Main St ste 400 · Call {siteConfig.phoneDisplay}</p>
+              {/* Subtle glass brand badge on bottom for credibility */}
+              <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-xl px-3.5 py-2.5 shadow-md flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-bold text-navy flex items-center gap-1.5">
+                    <Shield className="w-3.5 h-3.5 text-gold" />
+                    Trinity SR22 Insurance
+                  </p>
+                  <p className="text-[11px] text-slate-500 font-medium">Fort Worth, TX · (817) 607-3345</p>
+                </div>
+                <span className="text-[11px] font-bold text-brandBlue bg-brandBlue-soft px-2.5 py-1 rounded-full">
+                  TxDPS Filing
+                </span>
               </div>
             </div>
           </div>
